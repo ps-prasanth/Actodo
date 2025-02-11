@@ -12,6 +12,8 @@ function Login(props)
     const [enterdpassword,setenterdpassword]=useState("")
     const [ruser,setruser]=useState(true)
 
+    const [pass,setpass]=useState(false)
+
     const users=props.users
     const setusers =props.setusers 
 
@@ -64,13 +66,16 @@ function Login(props)
 
             </div>
 
-            <div className="flex flex-col gap-2 my-2">
+            <div className="flex flex-row gap-2 my-2 relative items-center">
                 <input 
                 onChange={handelPinput}
-                type="text" 
+                type={pass? "text":"password"} 
                 className="w-52 p-1 border border-black rounded-md "
                 placeholder="password"
                 ></input>
+   
+            <span  onClick={()=>setpass(!pass)} className="absolute left-44 cursor-pointer">{pass? "🙈" : "👁️"}</span>
+              
 
             </div>
 

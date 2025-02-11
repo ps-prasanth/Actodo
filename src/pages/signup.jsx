@@ -12,28 +12,64 @@ function Signup(props)
     const [enterdusername,setenterdusername]=useState("")
     const [enterdpassword,setenterdpassword]=useState("")
 
+    const [error,seterror]=useState(true)
+
+    const [showpass,setshowpass]=useState(false)
+
+    const [showcpass,setshowcpass]=useState(false)
+
     function handelUinput(event)
     {
-      setenterdusername(event.target.value)
+      var nname=event.target.value.trim()
+
+      if(nname.length>1){
+      
+        setenterdusername(nname)
+      }
+      else{
+        setenterdusername("")
+      }
     } 
 
     function handelPinput(event)
     {
-      setenterdpassword(event.target.value)
+       
+
+        var npass=event.target.value.trim()
+
+        if(npass.length>=6){
+          setenterdpassword(npass)
+        }
+        else{
+            setenterdpassword("")
+        }
     }
 
-    function addUser()
+    function addUser(e)
     {
+        e.preventDefault()
+        
+        if(enterdusername && enterdpassword){
+
         setusers([...users,{username:enterdusername,password:enterdpassword}])
         navigate("/")
+
+        }
+        else{
+        seterror(false)
+        }
+        
     }
+
+   
+    
     
 
     return (
     <div className="bg-black p-10 ">
         <div className=" bg-[#EFEFEF] p-10 border rounded-md">
             <h1 className="text-3xl font-medium">Hey Hi</h1>
-            <p> Sign Up here :)</p>
+           {error? <p> Sign Up here :)</p> : <p className="text-red-500">Password must be 6+ lettors, no spaces only</p>}
 
             <div className="flex flex-col gap-2 my-2">
                 <input
@@ -45,22 +81,25 @@ function Signup(props)
 
             </div>
 
-            <div className="flex flex-col gap-2 my-2">
+            <div className="flex flex-row gap-2 my-2 relative items-center">
                 <input 
                 onChange={handelPinput}
-                type="text" 
+                type={showpass? "text":"password" }
                 className="w-52 p-1 border border-black rounded-md "
                 placeholder="password"
                 ></input>
+            <span  onClick={()=>setshowpass(!showpass)} className="absolute left-44 cursor-pointer">{showpass? "🙈" : "👁️"}</span>
 
             </div>
 
-            <div className="flex flex-col gap-2 my-2">
+            <div className="flex flex-row gap-2 my-2 relative items-center">
                 <input 
-                type="text" 
+                type={showcpass? "text":"password" }
                 className="w-52 p-1 border border-black rounded-md "
                 placeholder="confirmpassword"
                 ></input>
+
+               <span  onClick={()=>setshowcpass(!showcpass)} className="absolute left-44 cursor-pointer">{showcpass? "🙈" : "👁️"}</span>
 
             </div>
 
@@ -69,7 +108,7 @@ function Signup(props)
             </button>
 
             <p className="my-1">Already have an account?| <Link to={"/"} className="underline">Login</Link></p>
-
+            
         </div>
     </div>)
 }
